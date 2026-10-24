@@ -25,11 +25,8 @@ read -p "> " USER_KEY
 
 echo -e "\nVerificando Key no servidor..."
 
-# Cria o JSON de consulta dinamicamente
-RESPOSTA=$(curl -s -X POST "https://firestore.googleapis.com/v1/projects/kernel-system-key-bd527/databases/(default)/documents:runQuery" -H "Content-Type: application/json" -d "{\"structuredQuery\":{\"from\":[{\"collectionId\":\"keys\"}],\"where\":{\"fieldFilter\":{\"field\":{\"fieldPath\":\"key\"},\"op\":\"EQUAL\",\"value\":{\"stringValue\":\"$USER_KEY\"}}}}}")
-
-# Faz a requisição no Firestore
-RESPOSTA=$(curl -s -X POST "$FIRESTORE_URL" -H "Content-Type: application/json" -d @/tmp/query.json)
+# Faz a requisição no Firestore direto, sem arquivo
+RESPOSTA=$(curl -s -X POST "$FIRESTORE_URL" -H "Content-Type: application/json" -d "{\"structuredQuery\":{\"from\":[{\"collectionId\":\"keys\"}],\"where\":{\"fieldFilter\":{\"field\":{\"fieldPath\":\"key\"},\"op\":\"EQUAL\",\"value\":{\"stringValue\":\"$USER_KEY\"}}}}}")
 
 # Verifica se a key foi encontrada
 if [[ "$RESPOSTA" == "[]" || "$RESPOSTA" == *"NOT_FOUND"* ]]; then
