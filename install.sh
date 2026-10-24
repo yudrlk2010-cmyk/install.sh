@@ -26,7 +26,7 @@ read -p "> " USER_KEY
 echo -e "\nVerificando Key no servidor..."
 
 # Cria o JSON de consulta dinamicamente
-cat > /tmp/query.json << EOF
+cat > $HOME/query.json << EOF
 {
   "structuredQuery": {
     "from": [{"collectionId": "keys"}],
